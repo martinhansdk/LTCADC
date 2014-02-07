@@ -1,6 +1,10 @@
+
 LTCADC
 ======
 
-ADC library for arduino for using LTC ADCs.
+An Arduino library for Linear Technology ADCs. The library currently supports the LTC2439-1, but is designed 
+to be extensible to support other Analog digital converters that use the same SPI protocol. Pull requests are
+very welcome.
 
-Loosely based on Jan Dalheimer's ADC library from https://sites.google.com/site/alternativarduino/english/librarys/adc
+The library is loosely based on the ADC library by Jan Dalheimer, see https://sites.google.com/site/alternativarduino/english/librarys/adc
+

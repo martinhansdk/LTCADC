@@ -1,17 +1,22 @@
-//  This library is made to interface with various  Linear Technology (LTC)
+//  This library is made to interface with various Linear Technology (LTC)
 //  ADCs with have an SPI interface. This library uses the hardware SPI library,
 //  so the correct pin assignments can be found at http://arduino.cc/en/Reference/SPI.
 //  The chip select pin (CS) is choosen in the constructor.
 //
-//  This library is written by and copyright to Martin Hans under the Creative Commons Attribution-ShareAlike 3.0 Unported license.
+//  This library is written by and copyright to Martin Hans under the Creative Commons Attribution.
 //
 //  It is based loosely on the ADC library by Jan Dalheimer, see https://sites.google.com/site/alternativarduino/english/librarys/adc
 //
-//  I release this library without any warrant and with VERY limited support.
+//  I release this library without any warranty and with VERY limited support.
 //
 
 #ifndef LTCADC_H
 #define LTCADC_H
+
+#include <stdint.h>
+
+#define LTC_CHANNEL_COMMON 0b00010000
+#define LTC_CHANNEL_DIFFERENTIAL 0b00000000
 
 typedef struct {
     uint8_t numberOfDataBits;
@@ -34,25 +39,30 @@ public:
     ~LTCADC();
 
     // read 
-    unsigned int readADC(int channel);
+    long readADC(int channel);
 
     // lower level methods
 
     // set the next channel to convert and start the conversion
-    void startConversion(int channel);
+    uint8_t startConversion(int channel);
 
     // check if the ADC has finished the conversion
     bool conversionEnded();
 
     // query the result of the conversion from the ADC and return the result. Note that this will trigger another conversion
-    unsigned int readConversionResult();
+    long readConversionResult();
+
+
+    void selectSlave();
+    void deselectSlave();
 
 private:
     ADCModel model;
 
     //the Slave Select (SS) pin to be used by the arduino
     int SELPIN;
-    unsigned int dataMask;
+    unsigned long dataMask;
+    unsigned long signExtendMask;
 };
 
 #endif // LTCADC_H
